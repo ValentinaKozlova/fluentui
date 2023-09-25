@@ -15,9 +15,8 @@ const useBreadcrumbItemResetStyles = makeResetStyles({
   color: tokens.colorNeutralForeground2,
   boxSizing: 'border-box',
   textWrap: 'nowrap',
-});
 
-const useIconResetStyles = makeResetStyles({
+  // Styles for the medium (default) size
   display: 'inline-flex',
   alignItems: 'center',
   justifyContent: 'center',
@@ -69,14 +68,14 @@ export const useBreadcrumbItemStyles_unstable = (state: BreadcrumbItemState): Br
   const size = state.size || 'medium';
   const sizeMap = {
     small: styles.small,
-    medium: useDefaultItemSize(),
+    medium: '', // Medium is the default. No need to apply any styles
     large: styles.large,
-  };
+  } as const;
   const currentSizeMap = {
     small: styles.currentSmall,
     medium: styles.currentMedium,
     large: styles.currentLarge,
-  };
+  } as const;
   const noSpacingStyle =
     state.isInteractive || (!state.isInteractive && state.size === 'small') ? styles.noSpacing : '';
 
