@@ -19,8 +19,12 @@ const useStyles = makeStyles({
     boxSizing: 'border-box',
     ...shorthands.transition('transform', '.5s', 'ease-in-out'),
     '&:hover': {
-      transform: 'scale(1.3)',
-      ...shorthands.border('2px', 'solid', 'black'),
+      transform: 'scale(1.1)',
+      boxShadow: `inset 0px 0px 0px 2px #00ffff, inset 0px 0px 0px 4px black`,
+    },
+    '&:hover&:active': {
+      transform: 'scale(1.2)',
+      boxShadow: `inset 0px 0px 0px 2px #00ffff, inset 0px 0px 0px 4px black`,
     },
   },
   input: {
@@ -40,15 +44,24 @@ const useStyles = makeStyles({
     height: '24px',
   },
   medium: {
-    width: '30px',
-    height: '30px',
+    width: '28px',
+    height: '28px',
   },
   large: {
-    width: '50px',
-    height: '50px',
+    width: '32px',
+    height: '32px',
   },
   selected: {
-    ...shorthands.border('2px', 'solid', 'white'),
+    boxShadow: `inset 0px 0px 0px 2px #00ffff, inset 0px 0px 0px 6px black`,
+    ...shorthands.border('none'),
+    '&:hover': {
+      transform: 'scale(1.2)',
+      boxShadow: `inset 0px 0px 0px 2px #00ffff, inset 0px 0px 0px 5px black`,
+    },
+    '&:hover&:active': {
+      transform: 'scale(1.2)',
+      boxShadow: `inset 0px 0px 0px 3px #00ffff, inset 0px 0px 0px 6px black`,
+    },
   },
 });
 
@@ -60,6 +73,8 @@ export const useSwatchColorPikerCellStyles_unstable = (state: SwatchColorPikerCe
   const shape = state.shape === 'circular' ? styles.circular : styles.square;
   const size = state.size || 'medium';
   const selectedStyle = state.selected ? styles.selected : '';
+  const color = state.color || 'transparent';
+
   state.root.className = mergeClasses(
     swatchColorPikerCellClassNames.root,
     styles.root,

@@ -126,6 +126,19 @@ export const DesignStories = (props: Partial<SwatchPickerProps>) => {
           <SwatchColorPikerCell key={item.id} id={item.id} name="color" value={item.swatch} swatch={item.swatch} />
         ))}
       </SwatchPicker>
+      <div style={{ backgroundColor: 'black', padding: 40 }}>
+        <SwatchPicker
+          layout="grid"
+          value={gridColor}
+          onChange={(_, data) => setGridColor(data.value)}
+          aria-labelledby="colors"
+          style={{ gridTemplateColumns: `repeat(4, 30px)` }}
+        >
+          {colorsLarge.map(item => (
+            <SwatchColorPikerCell key={item.id} id={item.id} name="color" value={item.swatch} swatch={item.swatch} />
+          ))}
+        </SwatchPicker>
+      </div>
       <h2>New</h2>
       <SwatchPicker
         layout="grid"
