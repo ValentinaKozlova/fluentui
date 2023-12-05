@@ -19,7 +19,7 @@ const useStyles = makeStyles({
   row: {
     display: 'flex',
     flexDirection: 'row',
-    columnGap: '2px',
+    columnGap: '4px',
   },
   grid: {
     display: 'grid',
