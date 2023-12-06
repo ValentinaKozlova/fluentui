@@ -17,11 +17,11 @@ export const useSwatchColorPikerCell_unstable = (
   props: SwatchColorPikerCellProps,
   ref: React.Ref<HTMLInputElement>,
 ): SwatchColorPikerCellState => {
-  const { swatch, disabled = false, id, ...rest } = props;
+  const { swatch, disabled = false, name, ...rest } = props;
   const { shape, size, selectedId } = useSwatchPickerContext_unstable();
   const radio = useRadio_unstable(props, ref);
 
-  const selected = selectedId === props.value;
+  const selected = selectedId === swatch;
   return {
     components: {
       root: 'span',
@@ -33,6 +33,8 @@ export const useSwatchColorPikerCell_unstable = (
     }),
     input: {
       ...radio.input,
+      name,
+      value: swatch,
     },
     swatch,
     shape,

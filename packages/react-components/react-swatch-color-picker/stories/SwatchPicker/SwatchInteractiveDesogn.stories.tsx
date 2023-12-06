@@ -123,7 +123,7 @@ export const InteractiveDesignStories = (props: Partial<SwatchPickerProps>) => {
         style={{ gridTemplateColumns: `repeat(4, 28px)` }}
       >
         {colorsLarge.map(item => (
-          <SwatchColorPikerCell key={item.id} id={item.id} name="color" value={item.swatch} swatch={item.swatch} />
+          <SwatchColorPikerCell key={item.swatch} swatch={item.swatch} />
         ))}
       </SwatchPicker>
       <SwatchPicker
@@ -134,7 +134,7 @@ export const InteractiveDesignStories = (props: Partial<SwatchPickerProps>) => {
         style={{ gridTemplateColumns: `repeat(4, 28px)`, gap: 4, marginTop: 10 }}
       >
         {colorsLarge.map(item => (
-          <SwatchColorPikerCell key={item.id} id={item.id} name="color" value={item.swatch} swatch={item.swatch} />
+          <SwatchColorPikerCell key={item.id} swatch={item.swatch} />
         ))}
       </SwatchPicker>
       <div style={{ backgroundColor: 'black', padding: 40, marginTop: 10 }}>
@@ -146,7 +146,7 @@ export const InteractiveDesignStories = (props: Partial<SwatchPickerProps>) => {
           style={{ gridTemplateColumns: `repeat(4, 28px)` }}
         >
           {colorsLarge.map(item => (
-            <SwatchColorPikerCell key={item.id} id={item.id} name="color" value={item.swatch} swatch={item.swatch} />
+            <SwatchColorPikerCell key={item.swatch} swatch={item.swatch} />
           ))}
         </SwatchPicker>
         <SwatchPicker
@@ -157,7 +157,7 @@ export const InteractiveDesignStories = (props: Partial<SwatchPickerProps>) => {
           style={{ gridTemplateColumns: `repeat(4, 28px)`, gap: 4, marginTop: 10 }}
         >
           {colorsLarge.map(item => (
-            <SwatchColorPikerCell key={item.id} id={item.id} name="color" value={item.swatch} swatch={item.swatch} />
+            <SwatchColorPikerCell key={item.swatch} swatch={item.swatch} />
           ))}
         </SwatchPicker>
       </div>

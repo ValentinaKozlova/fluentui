@@ -26,6 +26,9 @@ const useStyles = makeStyles({
       transform: 'scale(1.2)',
       boxShadow: `inset 0px 0px 0px 2px #00ffff, inset 0px 0px 0px 4px black`,
     },
+    '&:focus, &:active': {
+      ...shorthands.border('2px', 'solid'),
+    },
   },
   input: {
     cursor: 'pointer',
@@ -73,7 +76,6 @@ export const useSwatchColorPikerCellStyles_unstable = (state: SwatchColorPikerCe
   const shape = state.shape === 'circular' ? styles.circular : styles.square;
   const size = state.size || 'medium';
   const selectedStyle = state.selected ? styles.selected : '';
-  const color = state.color || 'transparent';
 
   state.root.className = mergeClasses(
     swatchColorPikerCellClassNames.root,

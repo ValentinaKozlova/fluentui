@@ -126,14 +126,14 @@ export const Default = (props: Partial<SwatchPickerProps>) => {
       <h2>row</h2>
       <SwatchPicker layout="row" value={color} onChange={(_, data) => setColor(data.value)} aria-labelledby="colors">
         {colors.map(item => (
-          <SwatchColorPikerCell key={item.id} id={item.id} name="color" value={item.swatch} swatch={item.swatch} />
+          <SwatchColorPikerCell key={item.id} id={item.id} value={item.swatch} swatch={item.swatch} />
         ))}
       </SwatchPicker>
       <h2>grid</h2>
       <div style={{ width: '100px' }}>
         <SwatchPicker layout="grid" value={color} onChange={(_, data) => setColor(data.value)} aria-labelledby="colors">
           {colors.map(item => (
-            <SwatchColorPikerCell key={item.id} id={item.id} name="color" value={item.swatch} swatch={item.swatch} />
+            <SwatchColorPikerCell key={item.id} id={item.id} value={item.swatch} swatch={item.swatch} />
           ))}
         </SwatchPicker>
       </div>

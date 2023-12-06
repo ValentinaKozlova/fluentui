@@ -26,24 +26,6 @@ export const useSwatchPicker_unstable = (
     memorizeCurrent: true,
   });
   return {
-    // TODO add appropriate props/defaults
-    // components: {
-    //   // TODO add each slot's element type or component
-    //   root: RadioGroup,
-    // },
-    // TODO add appropriate slots, for example:
-    // mySlot: resolveShorthand(props.mySlot),
-    // root: slot.always(
-    //   getNativeElementProps('div', {
-    //     ref,
-    //     ...props,
-    //   }),
-    //   { elementType: 'div' },
-    // ),
-    // root: getNativeElementProps('div', {
-    //   ref,
-    //   ...props,
-    // }),
     ...useRadioGroup_unstable(
       {
         ...focusAttributes,
