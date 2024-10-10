@@ -25,8 +25,7 @@ export const useColorAreaState_unstable = (state: ColorAreaState, props: ColorAr
 
   const { targetDocument } = useFluent();
   const onChangeFromContext = useColorPickerContextValue_unstable(ctx => ctx.requestChange);
-  const { onChange = onChangeFromContext, color } = props;
-
+  const { color, onChange = onChangeFromContext, onMouseDown, onMouseUp } = props;
   const hsvColor = tinycolor(color).toHsv();
   const saturation = hsvColor.s * 100;
   const value = hsvColor.v * 100;
@@ -47,14 +46,17 @@ export const useColorAreaState_unstable = (state: ColorAreaState, props: ColorAr
   const requestColorChange = useEventCallback((event: React.MouseEvent<HTMLDivElement>) => {
     const _coordinates = getCoordinates(event);
     setCoordinates(_coordinates);
-    const newColor = { h: hsvColor.h, s: _coordinates.x / 100, v: coordinates.y / 100 };
+    const newColor = tinycolor({ h: hsvColor.h, s: _coordinates.x / 100, v: _coordinates.y / 100 }).toRgbString();
+
     onChange?.(event, {
+      type: 'mousemove',
       event,
-      color: tinycolor(newColor).toHexString(),
+      color: newColor,
     });
   });
 
-  const _onMouseUp = useEventCallback(() => {
+  const _onMouseUp = useEventCallback((event: React.MouseEvent<HTMLDivElement>) => {
+    onMouseUp?.(event);
     targetDocument?.removeEventListener('mousemove', requestColorChange as unknown as EventListener);
     targetDocument?.removeEventListener('mouseup', _onMouseUp as unknown as EventListener);
   });
@@ -62,6 +64,7 @@ export const useColorAreaState_unstable = (state: ColorAreaState, props: ColorAr
   const _onMouseDown = useEventCallback((event: React.MouseEvent<HTMLDivElement>) => {
     event.stopPropagation();
     event.preventDefault();
+    onMouseDown?.(event);
     requestColorChange(event);
     targetDocument?.addEventListener('mousemove', requestColorChange as unknown as EventListener);
     targetDocument?.addEventListener('mouseup', _onMouseUp as unknown as EventListener);
@@ -71,7 +74,9 @@ export const useColorAreaState_unstable = (state: ColorAreaState, props: ColorAr
 
   const _onChange: React.ChangeEventHandler<HTMLInputElement> = useEventCallback(event => {
     const newValue = Number(event.target.value);
+    setCoordinates({ x: clamp(newValue, MIN, MAX), y: coordinates.y });
     const newColor = { h: hsvColor.h, s: newValue / 100, v: coordinates.y / 100 };
+
     inputOnChange?.(event);
     onChange?.(event, {
       type: 'change',
@@ -81,14 +86,21 @@ export const useColorAreaState_unstable = (state: ColorAreaState, props: ColorAr
   });
 
   const _onKeyDown = useEventCallback((event: React.KeyboardEvent<HTMLInputElement>) => {
-    console.log('down');
     if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
       event.preventDefault();
+      let newY = coordinates.y;
       if (event.key === 'ArrowUp') {
-        setCoordinates({ x: coordinates.x, y: clamp(coordinates.y + 1, MIN, MAX) });
+        newY = clamp(coordinates.y + 1, MIN, MAX);
       } else {
-        setCoordinates({ x: coordinates.x, y: clamp(coordinates.y - 1, MIN, MAX) });
+        newY = clamp(coordinates.y - 1, MIN, MAX);
       }
+      setCoordinates({ x: coordinates.x, y: newY });
+      const newColor = { h: hsvColor.h, s: coordinates.x / 100, v: newY / 100 };
+      onChange?.(event, {
+        type: 'change',
+        event,
+        color: tinycolor(newColor).toHexString(),
+      });
     }
   });
 

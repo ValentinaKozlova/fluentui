@@ -76,26 +76,17 @@ const useThumbStyles = makeStyles({
  * Styles for the Input slot
  */
 const useInputStyles = makeStyles({
-  // input: {
-  //   overflow: 'hidden',
-  //   position: 'absolute',
-  //   pointerEvents: 'none',
-  //   top: 0,
-  //   left: 0,
-  //   opacity: 0,
-  //   padding: '0',
-  //   margin: '0',
-  //   width: '100%',
-  //   height: '100%',
-  // },
   input: {
-    cursor: 'pointer',
-    gridRowStart: '1',
-    gridRowEnd: '-1',
-    gridColumnStart: '1',
-    gridColumnEnd: '-1',
+    overflow: 'hidden',
+    position: 'absolute',
+    pointerEvents: 'none',
+    top: 0,
+    left: 0,
+    opacity: 0,
     padding: '0',
     margin: '0',
+    width: '100%',
+    height: '100%',
   },
 });
 

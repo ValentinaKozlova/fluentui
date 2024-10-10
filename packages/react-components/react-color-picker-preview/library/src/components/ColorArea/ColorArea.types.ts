@@ -1,10 +1,10 @@
 import * as React from 'react';
 import type { ComponentProps, ComponentState, Slot, EventHandler, EventData } from '@fluentui/react-utilities';
 
-export type ColorAreaOnColorChangeData = EventData<'click' | 'onMouseMove', React.MouseEvent> & {
-  x: number;
-  y: number;
-};
+export type ColorAreaOnColorChangeData = EventData<'change', React.ChangeEvent<HTMLInputElement>> &
+  EventData<'click' | 'mousemove', React.MouseEvent<HTMLDivElement>> & {
+    color: string;
+  };
 
 export type ColorAreaSlots = {
   root: NonNullable<Slot<'div'>>;
