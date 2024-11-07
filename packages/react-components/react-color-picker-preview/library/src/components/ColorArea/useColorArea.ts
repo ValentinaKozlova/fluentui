@@ -81,8 +81,11 @@ export const useColorArea_unstable = (props: ColorAreaProps, ref: React.Ref<HTML
     targetDocument?.addEventListener('mouseup', handleDocumentMouseUp, { once: true });
   });
 
-  const handleOnChange: React.ChangeEventHandler<HTMLInputElement> = useEventCallback(event => {
-    const newColor = { h: color.h, s: Number(xRef.current!.value) / 100, v: Number(yRef.current?.value) / 100, a: 1 };
+  const handleXOnChange: React.ChangeEventHandler<HTMLInputElement> = useEventCallback(event => {
+    const newColor: HsvColor = {
+      ...color,
+      s: Number(xRef.current!.value) / 100,
+    };
 
     setColor(newColor);
     onChange?.(event, {
@@ -92,18 +95,49 @@ export const useColorArea_unstable = (props: ColorAreaProps, ref: React.Ref<HTML
     });
   });
 
-  const handleOnKeyDown = useEventCallback((event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
-      event.preventDefault();
+  const handleYOnChange: React.ChangeEventHandler<HTMLInputElement> = useEventCallback(event => {
+    const newColor: HsvColor = {
+      ...color,
+      v: Number(yRef.current!.value) / 100,
+    };
+    setColor(newColor);
+    onChange?.(event, {
+      type: 'change',
+      event,
+      color: newColor,
+    });
+  });
 
-      const newY = event.key === 'ArrowUp' ? clamp(value + 1, MIN, MAX) : clamp(value - 1, MIN, MAX);
-      const newColor: HsvColor = {
-        ...color,
-        s: color.s,
-        v: newY / 100,
-      };
-      setColor(newColor);
-      onChange?.(event, { type: 'change', event, color: newColor });
+  const handleOnChange: React.ChangeEventHandler<HTMLInputElement> = useEventCallback(event => {
+    const newColor = { h: color.h, s: Number(xRef.current!.value) / 100, v: Number(yRef.current?.value) / 100, a: 1 };
+    console.log('triggered onChange', event.target);
+    setColor(newColor);
+    onChange?.(event, {
+      type: 'change',
+      event,
+      color: newColor,
+    });
+  });
+
+  const handleOnKeyDown = useEventCallback((event: React.KeyboardEvent<HTMLInputElement>) => {
+    event.preventDefault();
+    event.stopPropagation();
+    if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
+      yRef.current?.focus();
+      console.log(event.target, 'X');
+
+      // const newY = event.key === 'ArrowUp' ? clamp(value + 1, MIN, MAX) : clamp(value - 1, MIN, MAX);
+      // const newColor: HsvColor = {
+      //   ...color,
+      //   s: color.s,
+      //   v: newY / 100,
+      // };
+      // setColor(newColor);
+      // onChange?.(event, { type: 'change', event, color: newColor });
+    } else if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+      xRef.current?.focus();
+      // console.log('when t set tabindex', targetDocument?.activeElement === xRef.current);
+      console.log(event.target, 'Y');
     }
   });
 
@@ -113,6 +147,8 @@ export const useColorArea_unstable = (props: ColorAreaProps, ref: React.Ref<HTML
     [colorAreaCSSVars.thumbColorVar]: 'transparent',
     [colorAreaCSSVars.mainColorVar]: `hsl(${color.h}, 100%, 50%)`,
   };
+
+  console.log(targetDocument?.activeElement);
 
   const state: ColorAreaState = {
     components: {
@@ -124,17 +160,17 @@ export const useColorArea_unstable = (props: ColorAreaProps, ref: React.Ref<HTML
     root: slot.always(getIntrinsicElementProps('div', { ...rest, ref }), { elementType: 'div' }),
     inputX: slot.always(inputX, {
       defaultProps: {
-        id: useId('sliderX-', props.id),
+        id: useId('sliderX-'),
         type: 'range',
-        ref: xRef,
+        tabIndex: targetDocument?.activeElement === yRef.current ? -1 : undefined,
       },
       elementType: 'input',
     }),
     inputY: slot.always(inputY, {
       defaultProps: {
-        id: useId('sliderY-', props.id),
+        id: useId('sliderY-'),
         type: 'range',
-        ref: yRef,
+        tabIndex: targetDocument?.activeElement === xRef.current ? -1 : undefined,
       },
       elementType: 'input',
     }),
@@ -150,8 +186,8 @@ export const useColorArea_unstable = (props: ColorAreaProps, ref: React.Ref<HTML
   };
 
   state.root.onMouseDown = useEventCallback(mergeCallbacks(state.root.onMouseDown, handleOnMouseDown));
-  state.inputX.onChange = useEventCallback(mergeCallbacks(state.inputX.onChange, handleOnChange));
-  state.inputY.onChange = useEventCallback(mergeCallbacks(state.inputY.onChange, handleOnChange));
+  state.inputX.onChange = useEventCallback(mergeCallbacks(state.inputX.onChange, handleXOnChange));
+  state.inputY.onChange = useEventCallback(mergeCallbacks(state.inputY.onChange, handleYOnChange));
   state.inputX.onKeyDown = useEventCallback(mergeCallbacks(state.inputX.onKeyDown, handleOnKeyDown));
   state.inputX.value = saturation;
   state.inputY.value = value;
