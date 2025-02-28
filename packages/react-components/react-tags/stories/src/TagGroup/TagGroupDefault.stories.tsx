@@ -1,5 +1,12 @@
 import * as React from 'react';
-import { TagGroup, InteractionTag, InteractionTagPrimary, Tag, makeStyles } from '@fluentui/react-components';
+import {
+  TagGroup,
+  InteractionTag,
+  InteractionTagPrimary,
+  Tag,
+  makeStyles,
+  TagGroupProps,
+} from '@fluentui/react-components';
 
 const WithTags = () => (
   <TagGroup aria-label="Simple tag group with Tag" role="list">
@@ -23,6 +30,27 @@ const WithInteractionTags = () => (
   </TagGroup>
 );
 
+const WithMultiselectTags = () => {
+  const [seletedTags, setSelectedTags] = React.useState([]);
+  const selectItem: TagGroupProps['onSelectionChange'] = (_e, { value }) => {
+    console.log('test');
+    // setSelectedTags([...seletedTags].filter(tag => tag.value !== value));
+  };
+  return (
+    <TagGroup onSelectionChange={selectItem} aria-label="Tag group with Multiselect Tag">
+      <InteractionTag>
+        <InteractionTagPrimary>Tag 1</InteractionTagPrimary>
+      </InteractionTag>
+      <InteractionTag>
+        <InteractionTagPrimary>Tag 2</InteractionTagPrimary>
+      </InteractionTag>
+      <InteractionTag>
+        <InteractionTagPrimary>Tag 3</InteractionTagPrimary>
+      </InteractionTag>
+    </TagGroup>
+  );
+};
+
 const useStyles = makeStyles({
   container: {
     display: 'flex',
@@ -39,6 +67,8 @@ export const Default = () => {
       <WithTags />
       Example with InteractionTag:
       <WithInteractionTags />
+      Example with Multiselect Tag:
+      <WithMultiselectTags />
     </div>
   );
 };

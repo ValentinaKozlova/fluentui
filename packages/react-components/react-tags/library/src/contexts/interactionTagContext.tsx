@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { InteractionTagState } from '../components/InteractionTag/index';
-import { TagDismissHandler } from '../utils/types';
+import { TagDismissHandler, TagSelectionHandler } from '../utils/types';
 
 export const InteractionTagContext = React.createContext<InteractionTagContextValue | undefined>(undefined);
 
@@ -13,6 +13,7 @@ const interactionTagContextDefaultValue: InteractionTagContextValue = {
   shape: 'rounded',
   size: 'medium',
   value: '',
+  handleTagSelection: () => ({}),
 };
 
 /**
@@ -23,6 +24,7 @@ export type InteractionTagContextValue<Value = string> = Required<
     handleTagDismiss: TagDismissHandler<Value>;
     interactionTagPrimaryId: string;
     value?: Value;
+    handleTagSelection: TagSelectionHandler<Value>;
   }
 >;
 

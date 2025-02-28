@@ -10,6 +10,14 @@ export type TagDismissData<Value = TagValue> = {
   value: Value;
 };
 
+export type TagSelectData<Value = TagValue> = {
+  value: Value;
+};
+
 export type TagDismissEvent = React.MouseEvent | React.KeyboardEvent;
 
+export type TagSelectEvent = React.MouseEvent | React.KeyboardEvent;
+
 export type TagDismissHandler<Value = TagValue> = (e: TagDismissEvent, data: TagDismissData<Value>) => void;
+
+export type TagSelectionHandler<Value = TagValue> = (e: TagSelectEvent, data: TagSelectData<Value>) => void;

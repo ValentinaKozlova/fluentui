@@ -4,6 +4,7 @@ import type { TagGroupProps, TagGroupState } from './TagGroup.types';
 import { useArrowNavigationGroup, useFocusFinders } from '@fluentui/react-tabster';
 import { useFluent_unstable as useFluent } from '@fluentui/react-shared-contexts';
 import { interactionTagSecondaryClassNames } from '../InteractionTagSecondary/useInteractionTagSecondaryStyles.styles';
+import { TagValue } from '../../utils/types';
 
 /**
  * Create the state required to render TagGroup.
@@ -22,11 +23,14 @@ export const useTagGroup_unstable = (props: TagGroupProps, ref: React.Ref<HTMLDi
     appearance = 'filled',
     dismissible = false,
     role = 'toolbar',
+    onSelectionChange,
   } = props;
 
   const innerRef = React.useRef<HTMLElement>();
   const { targetDocument } = useFluent();
   const { findNextFocusable, findPrevFocusable } = useFocusFinders();
+
+  const [items, setItems] = React.useState<Array<TagValue>>([]);
 
   const handleTagDismiss: TagGroupState['handleTagDismiss'] = useEventCallback((e, data) => {
     onDismiss?.(e, data);
@@ -52,6 +56,19 @@ export const useTagGroup_unstable = (props: TagGroupProps, ref: React.Ref<HTMLDi
     }
   });
 
+  const handleTagSelect: TagGroupState['handleTagSelection'] = useEventCallback((e, data) => {
+    console.log('execute');
+    onSelectionChange?.(e, data);
+
+    if (items.includes(data.value)) {
+      setItems(items.filter(item => item !== data.value));
+    } else {
+      setItems([...items, data.value]);
+    }
+
+    console.log(items);
+  });
+
   const arrowNavigationProps = useArrowNavigationGroup({
     circular: true,
     axis: 'both',
@@ -60,6 +77,8 @@ export const useTagGroup_unstable = (props: TagGroupProps, ref: React.Ref<HTMLDi
 
   return {
     handleTagDismiss,
+    handleTagSelection: handleTagSelect,
+    selectedValues: items,
     role,
     size,
     disabled,

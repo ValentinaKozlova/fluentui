@@ -1,5 +1,5 @@
 import type { ComponentProps, ComponentState, Slot } from '@fluentui/react-utilities';
-import { TagSize, TagValue, TagDismissHandler, TagAppearance } from '../../utils/types';
+import { TagSize, TagValue, TagDismissHandler, TagAppearance, TagSelectionHandler } from '../../utils/types';
 import { TagGroupContextValue } from '../../contexts/tagGroupContext';
 import * as React from 'react';
 
@@ -31,6 +31,13 @@ export type TagGroupProps<Value = TagValue> = ComponentProps<TagGroupSlots> & {
   size?: TagSize;
   appearance?: TagAppearance;
   dismissible?: boolean;
+
+  /**
+   * Whether the TagGroup allows multiple tags to be selected
+   */
+  multiSelect?: boolean;
+
+  onSelectionChange?: TagSelectionHandler<Value>; //(e: React.MouseEvent, data: { selectedValues: Value[] }) => void;
 };
 
 /**
@@ -40,4 +47,6 @@ export type TagGroupState<Value = TagValue> = ComponentState<TagGroupSlots> &
   Required<Pick<TagGroupProps, 'disabled' | 'size' | 'appearance' | 'dismissible'>> & {
     handleTagDismiss: TagDismissHandler<Value>;
     role?: React.AriaRole;
+    selectedValues: Value[];
+    handleTagSelection: TagSelectionHandler<Value>;
   };

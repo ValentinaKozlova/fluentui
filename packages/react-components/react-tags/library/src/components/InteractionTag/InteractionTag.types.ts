@@ -1,6 +1,6 @@
 import { ComponentProps, ComponentState, Slot } from '@fluentui/react-utilities';
 import { InteractionTagContextValue } from '../../contexts/interactionTagContext';
-import { TagAppearance, TagShape, TagSize, TagValue, TagDismissHandler } from '../../utils/types';
+import { TagAppearance, TagShape, TagSize, TagValue, TagDismissHandler, TagSelectionHandler } from '../../utils/types';
 
 export type InteractionTagContextValues = {
   interactionTag: InteractionTagContextValue;
@@ -64,6 +64,8 @@ export type InteractionTagState<Value = TagValue> = ComponentState<InteractionTa
      * Event handler from TagGroup context that allows TagGroup to dismiss the tag
      */
     handleTagDismiss: TagDismissHandler<Value>;
+
+    handleTagSelect: TagSelectionHandler<Value>;
 
     /**
      * id to assign to InteractionTagPrimary
