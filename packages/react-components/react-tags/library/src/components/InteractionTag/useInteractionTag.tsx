@@ -21,14 +21,15 @@ export const useInteractionTag_unstable = (
     size: contextSize,
     disabled: contextDisabled,
     appearance: contextAppearance,
-    handleTagSelection,
+    handleTagSelect,
+    selectedValues = [], // TODO remove from state, it shoyldn't fgo to deeper state
   } = useTagGroupContext_unstable();
 
   const id = useId('fui-InteractionTag-', props.id);
 
-  const interactionTagPrimaryId = useId('fui-InteractionTagPrimary-');
+  console.log(selectedValues);
 
-  console.log(handleTagSelection?.toString());
+  const interactionTagPrimaryId = useId('fui-InteractionTagPrimary-');
 
   const {
     appearance = contextAppearance ?? 'filled',
@@ -39,16 +40,18 @@ export const useInteractionTag_unstable = (
     value = id,
   } = props;
 
+  // TOOD selected from props and from selection itself, what priority is higher?
   return {
     appearance,
     disabled: contextDisabled ? true : disabled,
     handleTagDismiss,
-    handleTagSelect: handleTagSelection,
+    handleTagSelect,
     interactionTagPrimaryId,
-    selected,
+    selected: selectedValues?.includes(value) ?? selected,
     shape,
     size,
     value,
+    selectedValues,
 
     components: {
       root: 'div',

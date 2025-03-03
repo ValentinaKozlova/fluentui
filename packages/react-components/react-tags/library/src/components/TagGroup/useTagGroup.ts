@@ -23,7 +23,8 @@ export const useTagGroup_unstable = (props: TagGroupProps, ref: React.Ref<HTMLDi
     appearance = 'filled',
     dismissible = false,
     role = 'toolbar',
-    onSelectionChange,
+    onSelect,
+    // multiSelect = false,
   } = props;
 
   const innerRef = React.useRef<HTMLElement>();
@@ -56,9 +57,8 @@ export const useTagGroup_unstable = (props: TagGroupProps, ref: React.Ref<HTMLDi
     }
   });
 
-  const handleTagSelect: TagGroupState['handleTagSelection'] = useEventCallback((e, data) => {
-    console.log('execute');
-    onSelectionChange?.(e, data);
+  const handleTagSelect: TagGroupState['handleTagSelect'] = useEventCallback((e, data) => {
+    onSelect?.(e, data);
 
     if (items.includes(data.value)) {
       setItems(items.filter(item => item !== data.value));
@@ -66,7 +66,7 @@ export const useTagGroup_unstable = (props: TagGroupProps, ref: React.Ref<HTMLDi
       setItems([...items, data.value]);
     }
 
-    console.log(items);
+    // console.log(items);
   });
 
   const arrowNavigationProps = useArrowNavigationGroup({
@@ -77,7 +77,7 @@ export const useTagGroup_unstable = (props: TagGroupProps, ref: React.Ref<HTMLDi
 
   return {
     handleTagDismiss,
-    handleTagSelection: handleTagSelect,
+    handleTagSelect,
     selectedValues: items,
     role,
     size,

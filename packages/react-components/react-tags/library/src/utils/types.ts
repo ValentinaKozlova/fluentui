@@ -20,4 +20,4 @@ export type TagSelectEvent = React.MouseEvent | React.KeyboardEvent;
 
 export type TagDismissHandler<Value = TagValue> = (e: TagDismissEvent, data: TagDismissData<Value>) => void;
 
-export type TagSelectionHandler<Value = TagValue> = (e: TagSelectEvent, data: TagSelectData<Value>) => void;
+export type TagSelectHandler<Value = TagValue> = (e: TagSelectEvent, data: TagSelectData<Value>) => void;

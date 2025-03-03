@@ -7,13 +7,13 @@ const tagGroupContextDefaultValue: TagGroupContextValue = {
   handleTagDismiss: () => ({}),
   size: 'medium',
   role: 'toolbar',
-  handleTagSelection: () => ({}),
+  handleTagSelect: () => ({}),
 };
 
 /**
  * Context shared between TagGroup and its children components
  */
-export type TagGroupContextValue = Required<Pick<TagGroupState, 'handleTagDismiss' | 'size' | 'handleTagSelection'>> &
+export type TagGroupContextValue = Required<Pick<TagGroupState, 'handleTagDismiss' | 'size' | 'handleTagSelect'>> &
   Partial<Pick<TagGroupState, 'disabled' | 'appearance' | 'dismissible' | 'role' | 'selectedValues'>>;
 
 export const TagGroupContextProvider = TagGroupContext.Provider;

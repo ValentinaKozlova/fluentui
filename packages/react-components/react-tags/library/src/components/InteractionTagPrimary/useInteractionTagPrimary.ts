@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { getIntrinsicElementProps, slot } from '@fluentui/react-utilities';
+import { getIntrinsicElementProps, slot, useEventCallback } from '@fluentui/react-utilities';
 import type { InteractionTagPrimaryProps, InteractionTagPrimaryState } from './InteractionTagPrimary.types';
 import { useInteractionTagContext_unstable } from '../../contexts/interactionTagContext';
 
@@ -34,8 +34,22 @@ export const useInteractionTagPrimary_unstable = (
     selected: contextSelected,
     shape,
     size,
+    handleTagSelect,
+    value,
   } = useInteractionTagContext_unstable();
   const { hasSecondaryAction = false } = props;
+
+  const onClick = useEventCallback((ev: React.MouseEvent<HTMLButtonElement>) => {
+    props?.onClick?.(ev);
+    if (!ev.defaultPrevented) {
+      handleTagSelect?.(ev, { value });
+    }
+  });
+
+  const onKeyDown = useEventCallback((ev: React.KeyboardEvent<HTMLButtonElement>) => {
+    props?.onKeyDown?.(ev);
+    handleTagSelect?.(ev, { value });
+  });
 
   return {
     appearance,
@@ -61,6 +75,8 @@ export const useInteractionTagPrimary_unstable = (
         disabled,
         id: interactionTagPrimaryId,
         ...props,
+        onClick,
+        onKeyDown,
       }),
       { elementType: 'button' },
     ),
